@@ -3,7 +3,7 @@ import * as config from '../config'
 
 
 export async function getToken(email, password){
-    let error;
+
     const response = await axios.post(
         config.URL + '/login',
         {
@@ -17,6 +17,21 @@ export async function getToken(email, password){
     }
 
     return {'status':1, 'data': response.data}
+}
+
+export async function registerUser(username, email, password){
+
+    const response = await axios.post(
+        config.URL + '/signup',
+        {
+            username: username,
+            email: email,
+            password: password
+        }
+    ).catch((e) => {
+        return {'data':{ 'message':e.response.data.message, 'status': e.response.data.status}};
+    });
+    return response.data
 }
 
 export async function fetchData(){

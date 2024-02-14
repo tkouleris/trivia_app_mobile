@@ -20,10 +20,9 @@ function Registration({navigation}){
         setPassword(value)
     }
 
-    function registrationHandler(){
-        console.log('Username: ' + username);
-        console.log('Email: ' + email)
-        console.log('Password: ' + password)
+    async function registrationHandler(){
+        const response = await http.registerUser(username, email, password);
+        alert(response.message)
     }
 
     function cancelRegistrationHandler(){
