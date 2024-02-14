@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {StatusBar} from 'expo-status-bar';
 import Login from "./components/Login";
 import Registration from "./components/Registration";
+import Dashboard from "./components/Dashboard";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,10 @@ export default function App() {
                 <Stack.Screen
                     name="Registration"
                     component={Registration}
+                />
+                <Stack.Screen
+                    name="Dashboard"
+                    component={Dashboard}
                 />
             </Stack.Navigator>
         </NavigationContainer>

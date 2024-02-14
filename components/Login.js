@@ -20,7 +20,7 @@ function Login({navigation}){
         if(response.status === 0){
             alert(response.message)
         }else{
-            alert(response.data.token)
+            navigation.navigate('Dashboard')
         }
     }
 
