@@ -1,15 +1,24 @@
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, Pressable} from "react-native";
 import {Colors} from "../constants/colors";
+import {UserContext} from "../store/user-context";
+import {useContext} from "react";
 
 function Dashboard(){
+    const userCtx = useContext(UserContext)
+    function categorySelectionHandler(){
+        console.log(userCtx.user)
+    }
+
     return <View style={styles.container}>
         <View style={styles.title_container}>
             <Text style={styles.title_text}>Select Category</Text>
         </View>
         <View style={styles.buttons_container}>
-            <View style={styles.button}>
-                <Text style={styles.button_text}>Film</Text>
-            </View>
+            <Pressable onPress={categorySelectionHandler} style={styles.button}>
+                <View >
+                    <Text style={styles.button_text}>Film</Text>
+                </View>
+            </Pressable>
             <View style={styles.button}>
                 <Text style={styles.button_text}>Books</Text>
             </View>

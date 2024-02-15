@@ -4,33 +4,36 @@ import {StatusBar} from 'expo-status-bar';
 import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Dashboard from "./components/Dashboard";
+import UserContextProvider from "./store/user-context";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
     return (
-        <NavigationContainer>
-            <StatusBar style="light"/>
-            <Stack.Navigator
-                initialRouteName="Login"
-                screenOptions={{headerShown: false}}
-            >
-                <Stack.Screen
-                    name="Login"
-                    component={Login}
-                />
+        <UserContextProvider>
+            <NavigationContainer>
+                <StatusBar style="light"/>
+                <Stack.Navigator
+                    initialRouteName="Login"
+                    screenOptions={{headerShown: false}}
+                >
+                    <Stack.Screen
+                        name="Login"
+                        component={Login}
+                    />
 
-                <Stack.Screen
-                    name="Registration"
-                    component={Registration}
-                />
-                <Stack.Screen
-                    name="Dashboard"
-                    component={Dashboard}
-                />
-            </Stack.Navigator>
-        </NavigationContainer>
+                    <Stack.Screen
+                        name="Registration"
+                        component={Registration}
+                    />
+                    <Stack.Screen
+                        name="Dashboard"
+                        component={Dashboard}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </UserContextProvider>
     )
 }
 

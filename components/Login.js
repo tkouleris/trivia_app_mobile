@@ -1,11 +1,13 @@
 import {Button, StyleSheet, Text, TextInput, View} from "react-native";
 import {Colors} from "../constants/colors";
 import * as http from "../util/http";
-import {useState} from "react";
+import {useState, useContext} from "react";
+import {UserContext} from "../store/user-context";
 
 function Login({navigation}){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const userCtx = useContext(UserContext)
 
     function emailInputHandler(emailValue){
         setEmail(emailValue)
@@ -20,6 +22,7 @@ function Login({navigation}){
         if(response.status === 0){
             alert(response.message)
         }else{
+            userCtx.setUser(response.data)
             navigation.navigate('Dashboard')
         }
     }
