@@ -1,12 +1,19 @@
 import {View, Text, StyleSheet, Pressable} from "react-native";
 import {Colors} from "../constants/colors";
 import {UserContext} from "../store/user-context";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
+import {getUser} from "../util/database";
+import {fetchQuestions} from "../util/http";
 
 function Dashboard(){
     const userCtx = useContext(UserContext)
-    function categorySelectionHandler(){
-        console.log(userCtx.user)
+
+    function categorySelectionHandler(category){
+        console.log(category);
+        console.log(userCtx.user.token)
+        fetchQuestions(userCtx.user.token, category).then((data)=>{
+            console.log(data);
+        })
     }
 
     return <View style={styles.container}>
@@ -14,22 +21,28 @@ function Dashboard(){
             <Text style={styles.title_text}>Select Category</Text>
         </View>
         <View style={styles.buttons_container}>
-            <Pressable onPress={categorySelectionHandler} style={styles.button}>
+            <Pressable onPress={categorySelectionHandler.bind(this,'film')} style={styles.button}>
                 <View >
                     <Text style={styles.button_text}>Film</Text>
                 </View>
             </Pressable>
-            <View style={styles.button}>
-                <Text style={styles.button_text}>Books</Text>
-            </View>
+            <Pressable onPress={categorySelectionHandler.bind(this,'books')} style={styles.button}>
+                <View>
+                    <Text style={styles.button_text}>Books</Text>
+                </View>
+            </Pressable>
         </View>
         <View style={styles.buttons_container}>
-            <View style={styles.button}>
-                <Text style={styles.button_text}>Celebrities</Text>
-            </View>
-            <View style={styles.button}>
-                <Text style={styles.button_text}>Politics</Text>
-            </View>
+            <Pressable onPress={categorySelectionHandler.bind(this,'celebrities')} style={styles.button}>
+                <View>
+                    <Text style={styles.button_text}>Celebrities</Text>
+                </View>
+            </Pressable>
+            <Pressable onPress={categorySelectionHandler.bind(this,'politics')} style={styles.button}>
+                <View>
+                    <Text style={styles.button_text}>Politics</Text>
+                </View>
+            </Pressable>
         </View>
     </View>
 }

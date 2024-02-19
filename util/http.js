@@ -34,10 +34,14 @@ export async function registerUser(username, email, password){
     return response.data
 }
 
-export async function fetchData(){
-    const response = await axios.get(config.URL )
+export async function fetchQuestions(token, category){
+    let headers = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
 
-    console.log('test')
-    console.log(response.data)
+    const response = await axios.get(config.URL + '/trivia?category='+category,headers).catch((error)=>console.log(error))
+
     return {'data': response.data}
 }

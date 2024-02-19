@@ -3,6 +3,7 @@ import {Colors} from "../constants/colors";
 import * as http from "../util/http";
 import {useState, useContext} from "react";
 import {UserContext} from "../store/user-context";
+import {getUser, saveUser} from "../util/database";
 
 function Login({navigation}){
     const [email, setEmail] = useState('')
@@ -23,6 +24,8 @@ function Login({navigation}){
             alert(response.message)
         }else{
             userCtx.setUser(response.data)
+            saveUser(email, password, '')
+
             navigation.navigate('Dashboard')
         }
     }

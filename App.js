@@ -5,10 +5,21 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Dashboard from "./components/Dashboard";
 import UserContextProvider from "./store/user-context";
+import {useEffect} from "react";
+import {getUser, init} from "./util/database";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+    // useEffect(() => {
+    //     init().then((user)=>{
+    //         if(user.id===1){
+    //             alert('user');
+    //         }
+    //     })
+    //
+    // }, [init]);
 
     return (
         <UserContextProvider>
