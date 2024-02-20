@@ -1,18 +1,18 @@
 import {View, Text, StyleSheet, Pressable} from "react-native";
 import {Colors} from "../constants/colors";
 import {UserContext} from "../store/user-context";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {getUser} from "../util/database";
 import {fetchQuestions} from "../util/http";
 
-function Dashboard(){
+function Dashboard({navigation}){
     const userCtx = useContext(UserContext)
 
     function categorySelectionHandler(category){
         console.log(category);
         console.log(userCtx.user.token)
-        fetchQuestions(userCtx.user.token, category).then((data)=>{
-            console.log(data);
+        fetchQuestions(userCtx.user.token, category).then((response)=>{
+            navigation.navigate('Gameboard', {questions: response.data})
         })
     }
 

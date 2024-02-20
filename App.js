@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import UserContextProvider from "./store/user-context";
 import {useEffect} from "react";
 import {getUser, init} from "./util/database";
+import Gameboard from "./components/Gameboard";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,10 @@ export default function App() {
                     <Stack.Screen
                         name="Dashboard"
                         component={Dashboard}
+                    />
+                    <Stack.Screen
+                        name="Gameboard"
+                        component={Gameboard}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
