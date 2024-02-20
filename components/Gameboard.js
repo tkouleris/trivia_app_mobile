@@ -12,15 +12,14 @@ function Gameboard({route}){
         setQuestions(route.params.questions)
     }, []);
 
-    function decode(string){
-        console.log(string)
-        let output = decodeURI(string).replace("%3F","?");
-        output = output.replace("%3A", ":")
-        return output.replace("%2C",",")
-    }
+    // function decode(string){
+    //     let output = decodeURI(string).replace("%3F","?");
+    //     output = output.replace("%3A", ":")
+    //     return output.replace("%2C",",")
+    // }
 
     function answerHandler(points){
-        if(currentIndex < questions.length){
+        if(currentIndex < (questions.length - 1)){
             setCurrentIndex(currentIndex+1)
             setTotalPoints(totalPoints + points)
         }
@@ -32,13 +31,13 @@ function Gameboard({route}){
     }
 
     return <View style={styles.container}>
-        <Text style={styles.question_text}>{(currentIndex+1)}. { decode(questions[currentIndex].question)}</Text>
+        <Text style={styles.question_text}>{(currentIndex+1)}. { decodeURIComponent(questions[currentIndex].question)}</Text>
         <View style={styles.answers_container}>
             {questions[currentIndex].answers.map((q, key) => {
                 return (
                     <Pressable onPress={answerHandler.bind(this,q.points)} style={styles.answer_container} key={key}>
                         <View >
-                            <Text style={styles.answer_text}>{decode(q.answer)}</Text>
+                            <Text style={styles.answer_text}>{decodeURIComponent(q.answer)}</Text>
                         </View>
                     </Pressable>
                 );
