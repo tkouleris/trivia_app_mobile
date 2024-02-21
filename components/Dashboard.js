@@ -21,8 +21,15 @@ function Dashboard({navigation}){
             <Text style={styles.title_text}>Select Category</Text>
         </View>
         <View style={styles.buttons_container}>
-            <Pressable onPress={categorySelectionHandler.bind(this,'film')} style={styles.button}>
-                <View >
+            <Pressable
+                onPress={categorySelectionHandler.bind(this,'film')}
+                style={({ pressed }) =>
+                    pressed
+                        ? [styles.button, styles.pressed]
+                        : styles.button
+                }
+            >
+                <View>
                     <Text style={styles.button_text}>Film</Text>
                 </View>
             </Pressable>
@@ -88,5 +95,10 @@ const styles = StyleSheet.create({
         color: Colors.light,
         fontWeight: 'bold',
         fontSize: 20
+    },
+    pressed:{
+        opacity: 0.75,
+        backgroundColor: Colors.light_dark,
+        borderRadius: 4
     }
 })

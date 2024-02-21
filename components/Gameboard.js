@@ -35,7 +35,15 @@ function Gameboard({route}){
         <View style={styles.answers_container}>
             {questions[currentIndex].answers.map((q, key) => {
                 return (
-                    <Pressable onPress={answerHandler.bind(this,q.points)} style={styles.answer_container} key={key}>
+                    <Pressable
+                        onPress={answerHandler.bind(this,q.points)}
+                        key={key}
+                        style={({ pressed }) =>
+                            pressed
+                                ? [styles.answer_container, styles.pressed]
+                                : styles.answer_container
+                        }
+                    >
                         <View >
                             <Text style={styles.answer_text}>{decodeURIComponent(q.answer)}</Text>
                         </View>
@@ -79,5 +87,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         paddingLeft: 10,
         fontSize: 20
+    },
+    pressed:{
+        opacity: 0.75,
+        backgroundColor: Colors.light_dark,
+        borderRadius: 4
     }
 })
