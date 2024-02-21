@@ -8,6 +8,7 @@ import UserContextProvider from "./store/user-context";
 import {useEffect} from "react";
 import {getUser, init} from "./util/database";
 import Gameboard from "./components/Gameboard";
+import RoundResult from "./components/RoundResult";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,10 @@ export default function App() {
                     <Stack.Screen
                         name="Gameboard"
                         component={Gameboard}
+                    />
+                    <Stack.Screen
+                        name="RoundResult"
+                        component={RoundResult}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
