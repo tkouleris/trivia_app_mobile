@@ -40,8 +40,16 @@ export async function fetchQuestions(token, category){
             'Authorization': 'Bearer ' + token
         }
     }
-
     const response = await axios.get(config.URL + '/trivia?category='+category,headers).catch((error)=>console.log(error))
+    return {'data': response.data}
+}
 
+export async function confirmResult(token, result){
+    let headers = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
+    const response = await axios.post(config.URL + '/submit', result, headers).catch((error)=>console.log(error))
     return {'data': response.data}
 }

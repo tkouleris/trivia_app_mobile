@@ -4,6 +4,7 @@ import * as http from "../util/http";
 import {useState, useContext} from "react";
 import {UserContext} from "../store/user-context";
 import {getUser, saveUser} from "../util/database";
+import {Ionicons} from "@expo/vector-icons";
 
 function Login({navigation}){
     const [email, setEmail] = useState('')
@@ -35,6 +36,12 @@ function Login({navigation}){
     }
 
     return  <View style={styles.container}>
+        <View>
+            <Ionicons name={'help-circle-outline'} size={200} color={Colors.light} />
+        </View>
+        <View>
+            <Text style={styles.title_text}>Trivia App</Text>
+        </View>
         <View style={styles.email_container}>
             <View>
                 <Text style={styles.email_text}>Email</Text>
@@ -72,7 +79,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.dark,
         alignItems: 'center',
-        justifyContent: 'center'
+        paddingTop: 80
+    },
+    title_text:{
+        fontSize: 20,
+        color: Colors.light,
+        fontWeight: 'bold'
     },
     email_container: {
         width: '80%',

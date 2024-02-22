@@ -1,8 +1,7 @@
 import {View, Text, StyleSheet, Pressable} from "react-native";
 import {Colors} from "../constants/colors";
 import {UserContext} from "../store/user-context";
-import {useContext, useEffect, useState} from "react";
-import {getUser} from "../util/database";
+import {useContext} from "react";
 import {fetchQuestions} from "../util/http";
 
 function Dashboard({navigation}){
