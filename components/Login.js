@@ -1,29 +1,62 @@
 import {Button, StyleSheet, Text, TextInput, View} from "react-native";
 import {Colors} from "../constants/colors";
 import * as http from "../util/http";
-import {useState, useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../store/user-context";
-import {getUser, saveUser} from "../util/database";
+import {getUser, init, saveUser} from "../util/database";
 import {Ionicons} from "@expo/vector-icons";
+import LoadingOverlay from "./UI/LoadingOverlay";
 
-function Login({navigation}){
+function Login({navigation}) {
+    const [isLoading, setIsLoading] = useState(true)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [currentUser, setCurrentUser] = useState({
+        id: 1,
+        email: "",
+        password: "",
+        token: ""
+    })
     const userCtx = useContext(UserContext)
 
-    function emailInputHandler(emailValue){
+    useEffect(() => {
+        async function getCurrentUser() {
+            init()
+            return await getUser();
+        }
+
+        getCurrentUser().then(user =>{
+            if (user.email.length === 0 || user.password.length === 0) {
+                setIsLoading(false);
+            } else {
+                http.getToken(user.email, user.password).then(response => {
+                    setIsLoading(false);
+                    if (response.status === 0) {
+                        alert(response.message)
+                    } else {
+                        userCtx.setUser(response.data)
+                        navigation.navigate('Dashboard')
+                    }
+                })
+
+            }
+        } );
+
+    }, []);
+
+    function emailInputHandler(emailValue) {
         setEmail(emailValue)
     }
 
-    function passwordInputHandler(passwordValue){
+    function passwordInputHandler(passwordValue) {
         setPassword(passwordValue)
     }
 
-    async function handleLogin(){
-        const response =  await http.getToken(email, password)
-        if(response.status === 0){
+    async function handleLogin() {
+        const response = await http.getToken(email, password)
+        if (response.status === 0) {
             alert(response.message)
-        }else{
+        } else {
             userCtx.setUser(response.data)
             saveUser(email, password, '')
 
@@ -35,9 +68,13 @@ function Login({navigation}){
         navigation.navigate('Registration')
     }
 
-    return  <View style={styles.container}>
+    if (isLoading) {
+        return <LoadingOverlay/>
+    }
+
+    return <View style={styles.container}>
         <View>
-            <Ionicons name={'help-circle-outline'} size={200} color={Colors.light} />
+            <Ionicons name={'help-circle-outline'} size={200} color={Colors.light}/>
         </View>
         <View>
             <Text style={styles.title_text}>Trivia App</Text>
@@ -47,7 +84,7 @@ function Login({navigation}){
                 <Text style={styles.email_text}>Email</Text>
             </View>
             <View>
-                <TextInput style={styles.email} onChangeText={emailInputHandler} />
+                <TextInput style={styles.email} onChangeText={emailInputHandler}/>
             </View>
         </View>
 
@@ -56,7 +93,7 @@ function Login({navigation}){
                 <Text style={styles.password_text}>Password</Text>
             </View>
             <View>
-                <TextInput secureTextEntry={true} style={styles.password}  onChangeText={passwordInputHandler} />
+                <TextInput secureTextEntry={true} style={styles.password} onChangeText={passwordInputHandler}/>
             </View>
         </View>
 
@@ -81,7 +118,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 80
     },
-    title_text:{
+    title_text: {
         fontSize: 20,
         color: Colors.light,
         fontWeight: 'bold'

@@ -4,7 +4,6 @@ const database = SQLite.openDatabase('trivia_app.db')
 
 export function init(){
     createDB()
-    return getUser();
 }
 
 function createDB(){
@@ -21,18 +20,25 @@ function createDB(){
                 ()=>{ console.log('db created'); resolve() },
                 (_,error)=>{ reject(error)})
         });
-
-        database.transaction((tx)=>{
-            tx.executeSql(`INSERT INTO user ( id, email, password, token) VALUES (2, "", "", "")`,
-                [],
-                (_,result)=>{
-                    console.log('record created')
-                    resolve(result)
-                },
-                (_,error)=>{  reject(error)})
+        getUser().then((user) => {
+            if(user===undefined){
+                database.transaction((tx)=>{
+                    tx.executeSql(`INSERT INTO user ( id, email, password, token) VALUES (1, "", "", "")`,
+                        [],
+                        (_,result)=>{
+                            console.log('record created')
+                            resolve(result)
+                        },
+                        (_,error)=>{  reject(error)})
+                })
+            }
         })
+
+
     });
 }
+
+
 
 export function getUser(){
     console.log('getUser');
