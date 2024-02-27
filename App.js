@@ -5,23 +5,27 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Dashboard from "./components/Dashboard";
 import UserContextProvider from "./store/user-context";
-import {useEffect} from "react";
-import {getUser, init} from "./util/database";
+import React, {useContext} from "react";
+import {saveUser} from "./util/database";
 import Gameboard from "./components/Gameboard";
 import RoundResult from "./components/RoundResult";
+import IconButton from "./components/UI/IconButton";
+import {DevSettings, View} from "react-native";
+import {Colors} from "./constants/colors";
+import {UserContext} from "./store/user-context";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-    // useEffect(() => {
-    //     init().then((user)=>{
-    //         if(user.id===1){
-    //             alert('user');
-    //         }
-    //     })
-    //
-    // }, [init]);
+    const userCtx = useContext(UserContext)
+    function logoutHandler(){
+        saveUser("", "", "").then(r  =>{
+            userCtx.setUser({
+                token: ""
+            })
+            DevSettings.reload()
+        })
+    }
 
     return (
         <UserContextProvider>
@@ -43,7 +47,20 @@ export default function App() {
                     <Stack.Screen
                         name="Dashboard"
                         component={Dashboard}
-                    />
+                        options={ ({navigation}) => ({
+                            headerStyle:{ backgroundColor: Colors.dark },
+                            title: '',
+                            headerShown: true,
+                            headerLeft: () =>(<View></View>),
+                            headerRight: ({tintColor}) => (
+                                <IconButton
+                                    icon="power"
+                                    size={24}
+                                    color={Colors.light}
+                                    onPress={logoutHandler}
+                                />
+                            )
+                        })}/>
                     <Stack.Screen
                         name="Gameboard"
                         component={Gameboard}

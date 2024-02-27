@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.dark,
         alignItems: 'center',
-        paddingTop: '15%',
+        paddingTop: '0%',
         paddingHorizontal: '10%'
     },
     title_container:{
