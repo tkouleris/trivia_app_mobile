@@ -38,7 +38,6 @@ function Login({navigation}) {
                         navigation.navigate('Dashboard')
                     }
                 })
-
             }
         } );
 

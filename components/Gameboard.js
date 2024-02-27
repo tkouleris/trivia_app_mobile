@@ -19,7 +19,6 @@ function Gameboard({navigation, route}){
     }, []);
 
     function answerHandler(points){
-        console.log(currentIndex, questions.length-1)
         if(points > 0 && currentIndex <= (questions.length-1)){
             roundStarts.points = roundStarts.points + points
             roundStarts.correct_answers = roundStarts.correct_answers + 1
@@ -30,6 +29,7 @@ function Gameboard({navigation, route}){
         if(currentIndex < (questions.length-1)){
             setCurrentIndex(currentIndex + 1)
         }
+        setTotalPoints(roundStarts)
         if(currentIndex === questions.length-1){
             navigation.navigate('RoundResult', {results: roundStarts})
         }

@@ -9,8 +9,6 @@ function Dashboard({navigation}){
     const userCtx = useContext(UserContext)
 
     function categorySelectionHandler(category){
-        console.log(category);
-        console.log(userCtx.user.token)
         fetchQuestions(userCtx.user.token, category).then((response)=>{
             navigation.navigate('Gameboard', {questions: response.data})
         })
