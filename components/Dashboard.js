@@ -1,11 +1,13 @@
 import {View, Text, StyleSheet, Pressable} from "react-native";
 import {Colors} from "../constants/colors";
 import {UserContext} from "../store/user-context";
-import {useContext, useEffect, useLayoutEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useLayoutEffect, useState} from "react";
 import {fetchQuestions} from "../util/http";
 import {Ionicons} from "@expo/vector-icons";
 import {getUser, init} from "../util/database";
 import * as http from "../util/http";
+import {useFocusEffect} from "@react-navigation/native";
+
 
 function Dashboard({navigation}){
     const userCtx = useContext(UserContext)
@@ -18,17 +20,13 @@ function Dashboard({navigation}){
         }
     })
 
-    useLayoutEffect(() => {
-        console.log('useLayoutEffect')
-    }, []);
-
-    useEffect(() => {
-        console.log('useEffect')
-        http.fetchStats(userCtx.user.token).then(remote_stats=>{
-            setStats(remote_stats.data.data);
-        })
-
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            http.fetchStats(userCtx.user.token).then(remote_stats=>{
+                setStats(remote_stats.data.data);
+            })
+        }, [])
+    );
 
     function categorySelectionHandler(category){
         fetchQuestions(userCtx.user.token, category).then((response)=>{
@@ -54,7 +52,13 @@ function Dashboard({navigation}){
                     <Text style={styles.button_text}>Film</Text>
                 </View>
             </Pressable>
-            <Pressable onPress={categorySelectionHandler.bind(this,'books')} style={styles.button}>
+            <Pressable onPress={categorySelectionHandler.bind(this,'books')}
+                       style={({ pressed }) =>
+                           pressed
+                               ? [styles.button, styles.pressed]
+                               : styles.button
+                       }
+            >
                 <View style={styles.button_inner}>
                     <Ionicons name={'book'} size={20} color={Colors.light} />
                     <Text style={styles.button_text}>Books</Text>
@@ -62,13 +66,25 @@ function Dashboard({navigation}){
             </Pressable>
         </View>
         <View style={styles.buttons_container}>
-            <Pressable onPress={categorySelectionHandler.bind(this,'celebrities')} style={styles.button}>
+            <Pressable onPress={categorySelectionHandler.bind(this,'celebrities')}
+                       style={({ pressed }) =>
+                           pressed
+                               ? [styles.button, styles.pressed]
+                               : styles.button
+                       }
+            >
                 <View style={styles.button_inner}>
                     <Ionicons name={'people'} size={20} color={Colors.light} />
                     <Text style={styles.button_text}>Celebrities</Text>
                 </View>
             </Pressable>
-            <Pressable onPress={categorySelectionHandler.bind(this,'politics')} style={styles.button}>
+            <Pressable onPress={categorySelectionHandler.bind(this,'politics')}
+                       style={({ pressed }) =>
+                           pressed
+                               ? [styles.button, styles.pressed]
+                               : styles.button
+                       }
+            >
                 <View style={styles.button_inner}>
                     <Ionicons name={'compass'} size={20} color={Colors.light} />
                     <Text style={styles.button_text}>Politics</Text>
