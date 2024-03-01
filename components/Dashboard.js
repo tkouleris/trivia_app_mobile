@@ -98,7 +98,7 @@ function Dashboard({navigation}){
             <Text style={styles.stats_text}>Points: {stats["totals"]['points']}</Text>
             <Text style={styles.stats_text}>Correct: {stats["totals"]['correct_answers']}</Text>
             <Text style={styles.stats_text}>Total Questions: {stats["totals"]['questions']}</Text>
-            <Text style={styles.stats_percent}>{(Math.round((stats["totals"]['correct_answers'] / stats["totals"]['questions']) * 100) * 100) / 100}%</Text>
+            <Text style={styles.stats_percent}>{(Math.round((stats["totals"]['correct_answers'] / (stats["totals"]['questions']===0?1:stats["totals"]['questions']) ) * 100) * 100) / 100}%</Text>
         </View>
     </View>
 }
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 4,
         borderColor:Colors.light,
         marginBottom: 10,
-        paddingVertical: 10
+        paddingBottom: 10
     },
     title_text:{
         textAlign: 'center',
@@ -155,13 +155,14 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     stats_container:{
-        borderWidth: 2,
+        borderWidth: 5,
         borderColor: Colors.light_dark,
         backgroundColor: Colors.light,
         width: '100%',
         marginTop: 15,
         paddingLeft: 5,
-        paddingVertical: 10
+        paddingVertical: 10,
+        borderRadius: 10
     },
     stats_title_container:{
         borderBottomWidth: 1,
