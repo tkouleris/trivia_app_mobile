@@ -53,3 +53,13 @@ export async function confirmResult(token, result){
     const response = await axios.post(config.URL + '/submit', result, headers).catch((error)=>console.log(error))
     return {'data': response.data}
 }
+
+export async function fetchStats(token){
+    let headers = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
+    const response = await axios.get(config.URL + '/stats', headers).catch((error)=>console.log(error))
+    return {'data': response.data}
+}

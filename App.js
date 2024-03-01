@@ -10,7 +10,7 @@ import {saveUser} from "./util/database";
 import Gameboard from "./components/Gameboard";
 import RoundResult from "./components/RoundResult";
 import IconButton from "./components/UI/IconButton";
-import {DevSettings, View} from "react-native";
+import {DevSettings, View, Text} from "react-native";
 import {Colors} from "./constants/colors";
 import {UserContext} from "./store/user-context";
 
@@ -21,7 +21,8 @@ export default function App() {
     function logoutHandler(){
         saveUser("", "", "").then(r  =>{
             userCtx.setUser({
-                token: ""
+                token: "",
+                username:""
             })
             DevSettings.reload()
         })
