@@ -13,18 +13,19 @@ import IconButton from "./components/UI/IconButton";
 import {DevSettings, View, Text} from "react-native";
 import {Colors} from "./constants/colors";
 import {UserContext} from "./store/user-context";
+import RNRestart from 'react-native-restart';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     const userCtx = useContext(UserContext)
-    function logoutHandler(){
+    function logoutHandler(navigation){
         saveUser("", "", "").then(r  =>{
             userCtx.setUser({
                 token: "",
                 username:""
             })
-            DevSettings.reload()
+            navigation.navigate('Login')
         })
     }
 
@@ -58,7 +59,7 @@ export default function App() {
                                     icon="power"
                                     size={24}
                                     color={Colors.light}
-                                    onPress={logoutHandler}
+                                    onPress={logoutHandler.bind(this, navigation)}
                                 />
                             )
                         })}/>

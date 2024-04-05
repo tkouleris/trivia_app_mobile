@@ -26,7 +26,7 @@ function Login({navigation}) {
         }
 
         getCurrentUser().then(user =>{
-            if (user.email.length === 0 || user.password.length === 0) {
+            if (user === undefined || user.email.length === 0 || user.password.length === 0) {
                 setIsLoading(false);
             } else {
                 http.getToken(user.email, user.password).then(response => {
@@ -58,7 +58,6 @@ function Login({navigation}) {
         } else {
             userCtx.setUser(response.data)
             saveUser(email, password, '')
-
             navigation.navigate('Dashboard')
         }
     }
